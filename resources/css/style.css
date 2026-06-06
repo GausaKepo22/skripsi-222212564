@@ -1,0 +1,8 @@
+/* Sama seperti style sebelumnya */
+.card-hover:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.leaflet-container { z-index: 1; }
+section { scroll-margin-top: 5rem; }
+nav a.active { color: #60A5FA; font-weight: 700; }
