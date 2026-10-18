@@ -34,7 +34,7 @@ style="background-image: url('https://asset-2.tstatic.net/newsmaker/foto/bank/im
 </section>
 
 <!-- Peta Indeks Potensi -->
-<section id="peta-indeks" class="py-10 md:py-16 bg-white">
+<section id="indeks" class="py-10 md:py-16 bg-white pt-24">
   <div class="max-w-7xl mx-auto px-6">
 
     <h3 class="text-3xl font-bold mb-8 text-[#1A237E] text-center">
@@ -112,17 +112,17 @@ style="background-image: url('https://asset-2.tstatic.net/newsmaker/foto/bank/im
       <div class="space-y-3 text-sm">
 
         <div class="flex items-center gap-3">
-          <span class="w-5 h-5 bg-green-500 rounded"></span>
+          <span class="w-5 h-5 bg-[#002B80] rounded"></span>
           <span>Tinggi</span>
         </div>
 
         <div class="flex items-center gap-3">
-          <span class="w-5 h-5 bg-yellow-400 rounded"></span>
+          <span class="w-5 h-5 bg-[#1D4ED8] rounded"></span>
           <span>Sedang</span>
         </div>
 
         <div class="flex items-center gap-3">
-          <span class="w-5 h-5 bg-red-500 rounded"></span>
+          <span class="w-5 h-5 bg-[#7FA8F5] rounded"></span>
           <span>Rendah</span>
         </div>
 
@@ -270,7 +270,7 @@ style="background-image: url('https://asset-2.tstatic.net/newsmaker/foto/bank/im
           dihasilkan juga berada pada rentang 0–1, maka dilakukan transformasi
           sederhana dengan mengalikan nilai indeks sebesar 100 sehingga diperoleh
           skala 0–100. Transformasi ini tidak mengubah peringkat maupun hubungan
-          relatif antarwilayah, melainkan hanya mengubah skala penyajian agar
+          relatif antarwilayah, melainkan hanya mengubah skala penyajikan agar
           lebih mudah dipahami dan dibandingkan.
         </p>
 
@@ -309,8 +309,8 @@ style="background-image: url('https://asset-2.tstatic.net/newsmaker/foto/bank/im
                 <div class="mt-4 bg-white border-2 border-[#1A237E] text-[#1A237E] rounded-xl p-4 text-sm leading-relaxed">
                     <strong>Catatan:</strong> 
                     Titik pada scatter plot terdiri atas <strong>391 desa</strong> dari
-                    <strong>401 desa</strong> yang ada di Kabupaten Klaten.
-                    Sebanyak <strong>10 desa</strong> tidak diikutsertakan karena nilai
+                    <strong>401 desa/kelurahan</strong> yang ada di Kabupaten Klaten.
+                    Sebanyak <strong>10 kelurahan</strong> tidak diikutsertakan karena nilai
                     <strong>IDM</strong> tidak tersedia.
                 </div>
             </div>
@@ -329,7 +329,7 @@ style="background-image: url('https://asset-2.tstatic.net/newsmaker/foto/bank/im
                 <div class="mt-4 bg-white border-2 border-[#1A237E] text-[#1A237E] rounded-xl p-4 text-sm leading-relaxed">
                     <strong>Catatan:</strong>
                     Titik pada scatter plot terdiri atas <strong>39 desa</strong> dari
-                    <strong>401 desa</strong> yang ada di Kabupaten Klaten.
+                    <strong>401 desa/kelurahan</strong> yang ada di Kabupaten Klaten.
                     Hal ini karena hanya <strong>39 desa</strong> yang dilakukan
                     <strong>assessment</strong>, yaitu desa-desa yang telah tercatat sebagai
                     <strong>Desa Wisata</strong> dan memiliki <strong>SK Desa Wisata</strong>.
@@ -342,8 +342,6 @@ style="background-image: url('https://asset-2.tstatic.net/newsmaker/foto/bank/im
     </div>
 
 </section>
-
-</div>
 
 @endsection
 
@@ -378,23 +376,23 @@ document.addEventListener('DOMContentLoaded', function () {
   // WARNA KATEGORI
   // ============================
 
-  function getColor(kategori) {
+function getColor(kategori) {
 
-    switch ((kategori || '').toLowerCase()) {
+  switch ((kategori || '').toLowerCase()) {
 
-      case 'tinggi':
-        return '#16a34a';
+    case 'tinggi':
+      return '#002B80';
 
-      case 'sedang':
-        return '#facc15';
+    case 'sedang':
+      return '#1D4ED8';
 
-      case 'rendah':
-        return '#dc2626';
+    case 'rendah':
+      return '#7FA8F5';
 
-      default:
-        return '#9ca3af';
-    }
+    default:
+      return '#FFFFFF';
   }
+}
 
   // ============================
   // LOAD GEOJSON
@@ -428,12 +426,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
           layer.bindPopup(`
             <div style="min-width:220px">
-
-              <h3 style="font-weight:bold; font-size:16px; margin-bottom:8px;">
-                ${props.Desa || '-'}
-              </h3>
-
               <table style="width:100%; font-size:13px;">
+                <tr>
+                  <td><b>Desa/Kelurahan</b></td>
+                  <td>: ${props.Desa || '-'}</td>
+                </tr>
+
                 <tr>
                   <td><b>Kecamatan</b></td>
                   <td>: ${props.Kecamatan || '-'}</td>
@@ -480,9 +478,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // Hover effect
           layer.on({
-
             mouseover: function(e) {
-
               e.target.setStyle({
                 weight: 3,
                 color: '#000',
@@ -491,12 +487,11 @@ document.addEventListener('DOMContentLoaded', function () {
             },
 
             mouseout: function(e) {
-
               indeksLayer.resetStyle(e.target);
             }
           });
         }
-
+          
       }).addTo(mapIndeks);
 
       // ============================
@@ -1409,4 +1404,4 @@ function exportExcel(data) {
 
 </script>
 
-  @endpush
+@endpush

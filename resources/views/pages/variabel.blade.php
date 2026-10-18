@@ -362,26 +362,32 @@
 const dataset = {!! json_encode($dataset ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
 // ===============================
-// DESKRIPTIF (TIDAK DIUBAH)
+// DESKRIPTIF (SUDAH DIPERBAIKI ANTI-ERROR)
 // ===============================
 function descriptiveStats(data) {
-    const n = data.length;
-    const mean = data.reduce((a, b) => a + b, 0) / n;
+    if (!data || data.length === 0) {
+        return { mean: 0, median: 0, min: 0, max: 0, std: 0, mode: [0], q1: 0, q2: 0, q3: 0 };
+    }
 
-    const sorted = [...data].sort((a, b) => a - b);
+    const n = data.length;
+    // Paksa konversi ke angka agar tidak error string
+    const numericData = data.map(Number);
+    const mean = numericData.reduce((a, b) => a + b, 0) / n;
+
+    const sorted = [...numericData].sort((a, b) => a - b);
 
     const median = n % 2 === 0
         ? (sorted[n / 2 - 1] + sorted[n / 2]) / 2
         : sorted[Math.floor(n / 2)];
 
-    const min = Math.min(...data);
-    const max = Math.max(...data);
+    const min = Math.min(...sorted);
+    const max = Math.max(...sorted);
 
-    const variance = data.reduce((a, b) => Math.pow(b - mean, 2) + a, 0) / n;
+    const variance = sorted.reduce((a, b) => Math.pow(b - mean, 2) + a, 0) / n;
     const std = Math.sqrt(variance);
 
     const freqMap = {};
-    data.forEach(v => freqMap[v] = (freqMap[v] || 0) + 1);
+    sorted.forEach(v => freqMap[v] = (freqMap[v] || 0) + 1);
 
     let mode = [];
     let maxFreq = 0;
@@ -403,6 +409,9 @@ function descriptiveStats(data) {
 }
 
 function quantile(sorted, q) {
+    if(sorted.length === 0) return 0;
+    if(sorted.length === 1) return sorted[0];
+
     const pos = (sorted.length - 1) * q;
     const base = Math.floor(pos);
     const rest = pos - base;
@@ -412,10 +421,16 @@ function quantile(sorted, q) {
         : sorted[base];
 }
 
+// ===============================
+// HISTOGRAM (SUDAH DIPERBAIKI BUGS JIKA DATA 0 SEMUA)
+// ===============================
 function createHistogram(data, bins = 10) {
+    if(!data || data.length === 0) return { labels: ["0"], values: [0] };
+
     const min = Math.min(...data);
     const max = Math.max(...data);
 
+    // Jika variansi 0 (misal: semua baris nilainya 0)
     if (min === max) {
         return { labels: [`${min}`], values: [data.length] };
     }
@@ -433,7 +448,7 @@ function createHistogram(data, bins = 10) {
     for (let i = 0; i < bins; i++) {
         let start = min + i * binSize;
         let end = min + (i + 1) * binSize;
-        labels.push(`${start.toFixed(0)} - ${end.toFixed(0)}`);
+        labels.push(`${start.toFixed(1)} - ${end.toFixed(1)}`);
     }
 
     return { labels, values: hist };
@@ -447,6 +462,9 @@ function smooth(data) {
     });
 }
 
+// ===============================
+// CORRELATION DATA 
+// ===============================
 const correlationData = [
 [1,0.362199,0.200036,0.022889,0.404133,0.058595,0.107174,0.397952,0.381538,0.240746,0.329400,0.222332,0.239717,0.025894,0.110746,0.064425,0.099526,0.086577],
 [0.362199,1,0.220581,0.032143,0.575496,0.030315,0.079637,0.539080,0.379309,0.338552,0.255700,0.084575,0.194446,-0.060199,0.157577,0.082277,0.110194,0.027824],
@@ -475,225 +493,123 @@ const labels = [
 ];
 
 const fullLabels = {
-    RESTORAN: "Jumlah Restoran",
-    BANK: "Jumlah Bank",
-    MENARA: "Jumlah Menara Telekomunikasi",
-    OPERATOR: "Jumlah Operator Layanan Seluler",
-    ATM: "Jumlah ATM/BRILink",
-    "JARAK STASIUN": "Mean Jarak DTW ke Stasiun",
-    "MEAN WR": "Mean Weighting Rate (WR)",
-    PERTOKOAN: "Jumlah Pertokoan",
-    MINIMARKET: "Jumlah Minimarket",
-    KEDAI: "Jumlah Kedai",
-    HOTEL: "Jumlah Hotel",
-    PENGINAPAN: "Jumlah Penginapan",
-    TOKO: "Jumlah Toko/Warung",
-    ALAM: "Wisata Alam",
-    BUATAN: "Wisata Buatan",
-    BUDAYA: "Wisata Budaya",
-    REKREASI: "Wisata Rekreasi",
-    TIRTA: "Wisata Tirta"
+    RESTORAN: "Jumlah Restoran", BANK: "Jumlah Bank", MENARA: "Jumlah Menara Telekomunikasi",
+    OPERATOR: "Jumlah Operator Layanan Seluler", ATM: "Jumlah ATM/BRILink", "JARAK STASIUN": "Mean Jarak DTW ke Stasiun",
+    "MEAN WR": "Mean Weighting Rate (WR)", PERTOKOAN: "Jumlah Pertokoan", MINIMARKET: "Jumlah Minimarket",
+    KEDAI: "Jumlah Kedai", HOTEL: "Jumlah Hotel", PENGINAPAN: "Jumlah Penginapan",
+    TOKO: "Jumlah Toko/Warung", ALAM: "Wisata Alam", BUATAN: "Wisata Buatan",
+    BUDAYA: "Wisata Budaya", REKREASI: "Wisata Rekreasi", TIRTA: "Wisata Tirta"
 };
 
 const labelsY = [...labels].reverse();
-
 const ctx = document.getElementById('correlationChart');
 
-new Chart(ctx, {
-
-    type: 'matrix',
-
-    data: {
-        datasets: [{
-
-            data: correlationData.flatMap((row, i) =>
-                row.map((v, j) => ({
-                    x: labels[j],
-                    y: labels[i],
-                    v: v
-                }))
-            ),
-
-            borderWidth: 0,
-            borderColor: 'transparent',
-
-            backgroundColor: (ctx) => {
-
-                const v = Math.abs(ctx.raw?.v ?? 0);
-
-                const start = [173, 216, 230]; // biru laut muda
-                const end   = [180, 0, 40];    // merah tua
-
-                const r = Math.round(start[0] + (end[0] - start[0]) * v);
-                const g = Math.round(start[1] + (end[1] - start[1]) * v);
-                const b = Math.round(start[2] + (end[2] - start[2]) * v);
-
-                return `rgb(${r},${g},${b})`;
-            },
-
-            width: ({ chart }) => {
-
-                const area = chart.chartArea;
-                if (!area) return 0;
-
-                return Math.ceil(
-                    area.width / labels.length
-                );
-            },
-
-            height: ({ chart }) => {
-
-                const area = chart.chartArea;
-                if (!area) return 0;
-
-                return Math.ceil(
-                    area.height / labels.length
-                );
-            }
-        }]
-    },
-
-    options: {
-
-        responsive: true,
-        maintainAspectRatio: false,
-
-        layout: {
-            padding: {
-                left: 20,
-                bottom: 20,
-                top: 20,
-                right: 20
-            }
-        },
-
-        plugins: {
-
-            legend: {
-                display: false
-            },
-
-        tooltip: {
-
-            displayColors: false,
-
-            callbacks: {
-
-                title: (items) => {
-
-                    const d = items[0].raw;
-
-                    return `${fullLabels[d.x]} ↔ ${fullLabels[d.y]}`;
+if (ctx) {
+    new Chart(ctx, {
+        type: 'matrix',
+        data: {
+            datasets: [{
+                data: correlationData.flatMap((row, i) =>
+                    row.map((v, j) => ({
+                        x: labels[j],
+                        y: labels[i],
+                        v: v
+                    }))
+                ),
+                borderWidth: 0,
+                borderColor: 'transparent',
+                backgroundColor: (ctx) => {
+                    const v = Math.abs(ctx.raw?.v ?? 0);
+                    const start = [173, 216, 230]; 
+                    const end   = [180, 0, 40];    
+                    const r = Math.round(start[0] + (end[0] - start[0]) * v);
+                    const g = Math.round(start[1] + (end[1] - start[1]) * v);
+                    const b = Math.round(start[2] + (end[2] - start[2]) * v);
+                    return `rgb(${r},${g},${b})`;
                 },
-
-                label: (ctx) => {
-
-                    const corr = ctx.raw.v;
-                    const absCorr = Math.abs(corr);
-
-                    let kategori = '';
-
-                    if (absCorr <= 0.19)
-                        kategori = 'Sangat Rendah';
-                    else if (absCorr <= 0.39)
-                        kategori = 'Rendah';
-                    else if (absCorr <= 0.59)
-                        kategori = 'Sedang';
-                    else if (absCorr <= 0.79)
-                        kategori = 'Tinggi';
-                    else
-                        kategori = 'Sangat Tinggi';
-
-                    const arah =
-                        corr >= 0
-                            ? 'Positif'
-                            : 'Negatif';
-
-                    return [
-                        `Korelasi : ${corr.toFixed(3)}`,
-                        `Arah : ${arah}`,
-                        `Kategori : ${kategori}`
-                    ];
+                width: ({ chart }) => {
+                    const area = chart.chartArea;
+                    return area ? Math.ceil(area.width / labels.length) : 0;
+                },
+                height: ({ chart }) => {
+                    const area = chart.chartArea;
+                    return area ? Math.ceil(area.height / labels.length) : 0;
                 }
-            }
-        }
+            }]
         },
-
-        scales: {
-
-            x: {
-
-                type: 'category',
-                labels: labels,
-
-                offset: false,
-
-            ticks: {
-                autoSkip: false,
-                maxRotation: 45,
-                minRotation: 45,
-                padding: 30,
-                font: {
-                    size: 12,
-                    weight: 'bold'
-                }
-            },
-
-                grid: {
-                    display: false,
-                    drawBorder: false
-                }
-            },
-
-            y: {
-
-                type: 'category',
-                labels: labelsY,
-
-                offset: false,
-
-                ticks: {
-                    autoSkip: false,
-                    padding: 30,
-                    font: {
-                        size: 12,
-                        weight: 'bold'
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: 20 },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    displayColors: false,
+                    callbacks: {
+                        title: (items) => {
+                            const d = items[0].raw;
+                            return `${fullLabels[d.x]} ↔ ${fullLabels[d.y]}`;
+                        },
+                        label: (ctx) => {
+                            const corr = ctx.raw.v;
+                            const absCorr = Math.abs(corr);
+                            let kategori = '';
+                            if (absCorr <= 0.19) kategori = 'Sangat Rendah';
+                            else if (absCorr <= 0.39) kategori = 'Rendah';
+                            else if (absCorr <= 0.59) kategori = 'Sedang';
+                            else if (absCorr <= 0.79) kategori = 'Tinggi';
+                            else kategori = 'Sangat Tinggi';
+                            const arah = corr >= 0 ? 'Positif' : 'Negatif';
+                            return [
+                                `Korelasi : ${corr.toFixed(3)}`,
+                                `Arah : ${arah}`,
+                                `Kategori : ${kategori}`
+                            ];
+                        }
                     }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: labels,
+                    offset: false,
+                    ticks: { autoSkip: false, maxRotation: 45, minRotation: 45, padding: 30, font: { size: 12, weight: 'bold' } },
+                    grid: { display: false, drawBorder: false }
                 },
-
-                grid: {
-                    display: false,
-                    drawBorder: false
+                y: {
+                    type: 'category',
+                    labels: labelsY,
+                    offset: false,
+                    ticks: { autoSkip: false, padding: 30, font: { size: 12, weight: 'bold' } },
+                    grid: { display: false, drawBorder: false }
                 }
             }
         }
-    }
-});
+    });
+}
 
 // ===============================
-// HISTOGRAM LOOP (UNCHANGED)
+// RENDER HISTOGRAM & DESKRIPTIF
 // ===============================
 const container = document.getElementById('container');
 const selector = document.getElementById('variableSelector');
 
 Object.keys(dataset).forEach((key) => {
-
     const option = document.createElement('option');
-
     option.value = key;
     option.textContent = dataset[key].label;
-
     selector.appendChild(option);
-
 });
 
 selector.addEventListener('change', () => {
-
     container.innerHTML = '';
-
     if (!selector.value) return;
 
     const key = selector.value;
+    
+    // Safety check jika key belum ada di dataset
+    if(!dataset[key] || !dataset[key].data) return;
 
     const data = dataset[key].data;
     const label = dataset[key].label;
@@ -708,23 +624,18 @@ selector.addEventListener('change', () => {
                     bg-white rounded-3xl shadow-xl p-6">
 
             <div>
-
                 <h2 class="text-xl font-bold text-[#1A237E] mb-4">
                     ${label}
                 </h2>
-
                 <canvas id="${chartId}"></canvas>
-
             </div>
 
             <div class="bg-blue-50 rounded-2xl p-6">
-
                 <h3 class="font-bold text-[#1A237E] mb-4">
                     Statistik Deskriptif
                 </h3>
 
                 <div class="space-y-2">
-
                     <div class="flex justify-between">
                         <span>Mean</span>
                         <span>${stats.mean.toFixed(2)}</span>
@@ -773,20 +684,14 @@ selector.addEventListener('change', () => {
                         <span>Jumlah Data</span>
                         <span class="font-bold text-[#1A237E]">${data.length}</span>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     `;
 
     new Chart(document.getElementById(chartId), {
-
         data: {
-
             labels: hist.labels,
-
             datasets: [
                 {
                     type: 'bar',
@@ -802,19 +707,28 @@ selector.addEventListener('change', () => {
                 }
             ]
         },
-
         options: {
             responsive: true,
             plugins: {
                 legend: {
                     display: false
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
-
     });
-
 });
 
+// Trigger untuk auto-render grafik ketika halaman pertama dibuka
+window.addEventListener('DOMContentLoaded', () => {
+    if (selector.options.length > 1) {
+        selector.selectedIndex = 1;
+        selector.dispatchEvent(new Event('change'));
+    }
+});
 </script>
 @endsection

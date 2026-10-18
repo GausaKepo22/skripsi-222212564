@@ -2,65 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
 class VariabelController extends Controller
 {
     public function index()
     {
-        $filePath = public_path('data/variabel.xlsx');
+        // Mengarahkan langsung ke folder public/data/variabel.csv
+        $filePath = public_path('data/variabel.csv');
 
         if (!file_exists($filePath)) {
-            abort(404, 'File Excel tidak ditemukan');
+            abort(404, 'File public/data/variabel.csv tidak ditemukan');
         }
 
-        $spreadsheet = IOFactory::load($filePath);
-        $sheet = $spreadsheet->getActiveSheet();
-        $rows = $sheet->toArray(null, true, true, true);
+        $handle = fopen($filePath, 'r');
 
-        // =====================================================
-        // HEADER
-        // =====================================================
+        // Read header with delimiter ';'
+        $rawHeader = fgetcsv($handle, 0, ';');
+
+        if (!$rawHeader) {
+            fclose($handle);
+            abort(500, 'File CSV kosong atau format delimiter salah.');
+        }
+
+        // Clean UTF-8 BOM dari kolom pertama
+        $rawHeader[0] = preg_replace('/^\xEF\xBB\xBF/', '', $rawHeader[0]);
+
         $headers = array_map(function ($h) {
             return strtoupper(trim($h));
-        }, $rows[1]);
+        }, $rawHeader);
 
-        unset($rows[1]);
+        $rows = [];
+        while (($row = fgetcsv($handle, 0, ';')) !== false) {
+            if (count($headers) === count($row)) {
+                $rows[] = array_combine($headers, $row);
+            }
+        }
+        fclose($handle);
 
-        // =====================================================
-        // KOLOM YANG DIPAKAI
-        // =====================================================
+        // Allowed columns
         $allowed = [
-            'RESTORAN',
-            'BANK',
-            'MENARA TELEPON',
-            'OPERATOR SELULER',
-            'ATM',
-            'DTW_STASIUN',
-            'MEAN_WR',
-            'PERTOKOAN',
-            'MINIMARKET',
-            'KEDAI_MAKAN_MINUM',
-            'HOTEL',
-            'PENGINAPAN',
-            'TOKO/WARUNG',
-            'ALAM',
-            'BUATAN',
-            'BUDAYA',
-            'REKREASI',
-            'TIRTA'
+            'RESTORAN', 'BANK', 'MENARA TELEPON', 'OPERATOR SELULER', 'ATM',
+            'DTW_STASIUN', 'MEAN_WR', 'PERTOKOAN', 'MINIMARKET',
+            'KEDAI_MAKAN_MINUM', 'HOTEL', 'PENGINAPAN', 'TOKO/WARUNG',
+            'ALAM', 'BUATAN', 'BUDAYA', 'REKREASI', 'TIRTA'
         ];
 
-        // =====================================================
-        // NORMALISASI ALLOWED
-        // =====================================================
-        $allowed = array_map(function ($a) {
-            return strtoupper(trim($a));
-        }, $allowed);
+        $allowed = array_map(fn($a) => strtoupper(trim($a)), $allowed);
 
-        // =====================================================
-        // LABEL UI
-        // =====================================================
         $labels = [
             'RESTORAN' => 'JUMLAH RESTORAN',
             'BANK' => 'JUMLAH BANK',
@@ -82,15 +69,10 @@ class VariabelController extends Controller
             'TIRTA' => 'JUMLAH WISATA TIRTA'
         ];
 
-        // =====================================================
-        // INIT DATASET
-        // =====================================================
         $dataset = [];
 
-        foreach ($headers as $key => $colName) {
-
+        foreach ($headers as $colName) {
             $colName = strtoupper(trim($colName));
-
             if (in_array($colName, $allowed)) {
                 $dataset[$colName] = [
                     'label' => $labels[$colName] ?? $colName,
@@ -99,30 +81,24 @@ class VariabelController extends Controller
             }
         }
 
-        // =====================================================
-        // FILL DATASET
-        // =====================================================
         foreach ($rows as $row) {
-
-            foreach ($headers as $key => $colName) {
-
+            foreach ($headers as $colName) {
                 $colName = strtoupper(trim($colName));
 
                 if (!isset($dataset[$colName])) {
                     continue;
                 }
 
-                $value = $row[$key] ?? null;
+                $value = $row[$colName] ?? null;
 
                 if (is_numeric($value)) {
                     $dataset[$colName]['data'][] = (float) $value;
+                } else {
+                    $dataset[$colName]['data'][] = 0;
                 }
             }
         }
 
-        // =====================================================
-        // SAFETY CHECK (ANTI ERROR JS)
-        // =====================================================
         if (empty($dataset)) {
             $dataset = [
                 'EMPTY' => [
@@ -132,8 +108,9 @@ class VariabelController extends Controller
             ];
         }
 
+        // Pastikan file blade berada di resources/views/pages/variabel.blade.php
         return view('pages.variabel', [
-            'dataset' => $dataset ?? []
+            'dataset' => $dataset
         ]);
     }
 }

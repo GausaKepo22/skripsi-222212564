@@ -99,6 +99,7 @@
                         Filter KDE
                     </h3>
 
+
                     <!-- FILTER KATEGORI -->
                     <div class="mb-6">
 
@@ -239,43 +240,122 @@
                     <thead class="bg-blue-50 text-[#1A237E]">
                         <tr>
                             <th class="p-3">Kategori</th>
-                            <th class="p-3">Jumlah</th>
-                            <th class="p-3">Observed</th>
-                            <th class="p-3">Expected</th>
                             <th class="p-3">ANN Ratio</th>
+                            <th class="p-3">z-score</th>
+                            <th class="p-3">p-value</th>
                             <th class="p-3">Pola</th>
-                            <th class="p-3">P-Value</th>
-                            <th class="p-3">Signifikansi</th>
                         </tr>
                     </thead>
 
                     <tbody>
 
-                        @foreach($annData as $row)
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">
+                                Seluruh ODTW
+                            </td>
+                            <td class="p-3">
+                                0,7541
+                            </td>
+                            <td class="p-3">
+                                -8,622
+                            </td>
+                            <td class="p-3">
+                                &lt;0,0001
+                            </td>
+                            <td class="p-3 font-semibold text-blue-700">
+                                Mengelompok
+                            </td>
+                        </tr>
 
-                            <tr class="border-b hover:bg-gray-50">
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">
+                                Wisata Alam
+                            </td>
+                            <td class="p-3">
+                                0,6650
+                            </td>
+                            <td class="p-3">
+                                -5,401
+                            </td>
+                            <td class="p-3">
+                                &lt;0,0001
+                            </td>
+                            <td class="p-3 font-semibold text-blue-700">
+                                Mengelompok
+                            </td>
+                        </tr>
 
-                                <td class="p-3 font-semibold">
-                                    {{ $row['kategori'] }}
-                                </td>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">
+                                Wisata Buatan
+                            </td>
+                            <td class="p-3">
+                                0,9022
+                            </td>
+                            <td class="p-3">
+                                -1,450
+                            </td>
+                            <td class="p-3">
+                                0,1473
+                            </td>
+                            <td class="p-3 font-semibold text-blue-700">
+                                Acak
+                            </td>
+                        </tr>
 
-                                <td class="p-3">{{ $row['jumlah'] }}</td>
-                                <td class="p-3">{{ $row['observed'] }}</td>
-                                <td class="p-3">{{ $row['expected'] }}</td>
-                                <td class="p-3">{{ $row['ann'] }}</td>
-                                <td class="p-3 font-semibold text-blue-700">
-                                    {{ $row['pola'] }}
-                                </td>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">
+                                Wisata Budaya
+                            </td>
+                            <td class="p-3">
+                                0,8325
+                            </td>
+                            <td class="p-3">
+                                -3,346
+                            </td>
+                            <td class="p-3">
+                                0,0008
+                            </td>
+                            <td class="p-3 font-semibold text-blue-700">
+                                Mengelompok
+                            </td>
+                        </tr>
 
-                                <td class="p-3">{{ $row['p'] }}</td>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">
+                                Wisata Taman Rekreasi
+                            </td>
+                            <td class="p-3">
+                                0,8001
+                            </td>
+                            <td class="p-3">
+                                -2,912
+                            </td>
+                            <td class="p-3">
+                                0,0036
+                            </td>
+                            <td class="p-3 font-semibold text-blue-700">
+                                Mengelompok
+                            </td>
+                        </tr>
 
-                                <td class="p-3 font-semibold text-blue-700">
-                                    {{ $row['hasil'] }}
-                                </td>
-
-                            </tr>
-
-                        @endforeach
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">
+                                Wisata Tirta
+                            </td>
+                            <td class="p-3">
+                                0,9036
+                            </td>
+                            <td class="p-3">
+                                -1,137
+                            </td>
+                            <td class="p-3">
+                                0,2557
+                            </td>
+                            <td class="p-3 font-semibold text-blue-700">
+                                Acak
+                            </td>
+                        </tr>
 
                     </tbody>
 
@@ -336,8 +416,10 @@
         [-7.705, 110.606],
         11
     );
+
     map.createPane('markers');
     map.getPane('markers').style.zIndex = 650;
+
     // =====================================================
     // BASEMAP
     // =====================================================
@@ -455,107 +537,107 @@
                 }
             );
 
-marker.bindPopup(`
-    <div style="
-        min-width:240px;
-        font-family:Inter,Segoe UI,sans-serif;
-    ">
+            marker.bindPopup(`
+                <div style="
+                    min-width:240px;
+                    font-family:Inter,Segoe UI,sans-serif;
+                ">
 
-        <h3 style="
-            color:#1E40AF;
-            font-size:16px;
-            font-weight:700;
-            margin-bottom:10px;
-            border-bottom:1px solid #E5E7EB;
-            padding-bottom:8px;
-        ">
-             ${item.NAMA}
-        </h3>
+                    <h3 style="
+                        color:#1E40AF;
+                        font-size:16px;
+                        font-weight:700;
+                        margin-bottom:10px;
+                        border-bottom:1px solid #E5E7EB;
+                        padding-bottom:8px;
+                    ">
+                         ${item.NAMA}
+                    </h3>
 
-        <div style="
-            display:flex;
-            flex-direction:column;
-            gap:8px;
-            font-size:13px;
-            color:#374151;
-        ">
+                    <div style="
+                        display:flex;
+                        flex-direction:column;
+                        gap:8px;
+                        font-size:13px;
+                        color:#374151;
+                    ">
 
-            <div style="
-                background:#EFF6FF;
-                color:#1D4ED8;
-                padding:6px 10px;
-                border-radius:8px;
-                font-weight:600;
-                text-align:center;
-            ">
-                ${item.KATEGORI ?? '-'}
-            </div>
+                        <div style="
+                            background:#EFF6FF;
+                            color:#1D4ED8;
+                            padding:6px 10px;
+                            border-radius:8px;
+                            font-weight:600;
+                            text-align:center;
+                        ">
+                            ${item.KATEGORI ?? '-'}
+                        </div>
 
-            <div>
-                <span style="font-weight:600;">DESA</span><br>
-                ${item.DESA ?? '-'}
-            </div>
+                        <div>
+                            <span style="font-weight:600;">DESA</span><br>
+                            ${item.DESA ?? '-'}
+                        </div>
 
-            <div>
-                <span style="font-weight:600;">KECAMATAN</span><br>
-                ${item.KECAMATAN ?? '-'}
-            </div>
+                        <div>
+                            <span style="font-weight:600;">KECAMATAN</span><br>
+                            ${item.KECAMATAN ?? '-'}
+                        </div>
 
-            <div style="
-                display:grid;
-                grid-template-columns:1fr;
-                gap:6px;
-                margin-top:4px;
-                padding-top:8px;
-                border-top:1px solid #E5E7EB;
-            ">
-                <div>
-                    <span style="font-weight:600;">🌐 Latitude</span><br>
-                    ${item.LATITUDE}
+                        <div style="
+                            display:grid;
+                            grid-template-columns:1fr;
+                            gap:6px;
+                            margin-top:4px;
+                            padding-top:8px;
+                            border-top:1px solid #E5E7EB;
+                        ">
+                            <div>
+                                <span style="font-weight:600;">🌐 Latitude</span><br>
+                                ${item.LATITUDE}
+                            </div>
+
+                            <div>
+                                <span style="font-weight:600;">🌐 Longitude</span><br>
+                                ${item.LONGITUDE}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    ${
+                        item.TAUTAN
+                        ?
+                        `
+                        <a href="${item.TAUTAN}"
+                           target="_blank"
+                           style="
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                gap:8px;
+                                margin-top:14px;
+                                padding:10px 12px;
+                                border-radius:10px;
+                                background:linear-gradient(135deg,#2563EB,#1D4ED8);
+                                color:white;
+                                text-decoration:none;
+                                font-size:13px;
+                                font-weight:600;
+                                box-shadow:0 4px 12px rgba(37,99,235,.25);
+                                transition:all .3s ease;
+                           "
+                           onmouseover="this.style.transform='translateY(-2px)'"
+                           onmouseout="this.style.transform='translateY(0)'"
+                        >
+                            🗺️ Buka di Google Maps
+                        </a>
+                        `
+                        :
+                        ''
+                    }
+
                 </div>
-
-                <div>
-                    <span style="font-weight:600;">🌐 Longitude</span><br>
-                    ${item.LONGITUDE}
-                </div>
-            </div>
-
-        </div>
-
-        ${
-            item.TAUTAN
-            ?
-            `
-            <a href="${item.TAUTAN}"
-               target="_blank"
-               style="
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:8px;
-                    margin-top:14px;
-                    padding:10px 12px;
-                    border-radius:10px;
-                    background:linear-gradient(135deg,#2563EB,#1D4ED8);
-                    color:white;
-                    text-decoration:none;
-                    font-size:13px;
-                    font-weight:600;
-                    box-shadow:0 4px 12px rgba(37,99,235,.25);
-                    transition:all .3s ease;
-               "
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'"
-            >
-                🗺️ Buka di Google Maps
-            </a>
-            `
-            :
-            ''
-        }
-
-    </div>
-`);
+            `);
 
             marker.addTo(markerLayer);
         });
@@ -584,7 +666,7 @@ marker.bindPopup(`
 
             }
 
-      ).addTo(map);
+        ).addTo(map);
 
     }
 
@@ -620,6 +702,7 @@ marker.bindPopup(`
 
         updateMap();
     });
+
     // =====================================================
     // LOAD AWAL
     // =====================================================

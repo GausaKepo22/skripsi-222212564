@@ -3,15 +3,15 @@
     
     <!-- LOGO + TITLE -->
     <div class="flex items-center gap-3">
-    <!-- Globe Icon -->
-    <div class="bg-white/20 w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/30 transition duration-300">
-    <svg xmlns="http://www.w3.org/2000/svg" 
-        class="w-5 h-5 text-white" 
-        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <circle cx="12" cy="12" r="10" stroke-width="2"/>
-        <path stroke-width="2" d="M2 12h20M12 2c3 4 3 16 0 20M12 2c-3 4-3 16 0 20"/>
-    </svg>
-    </div>
+      <!-- Globe Icon -->
+      <div class="bg-white/20 w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/30 transition duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-5 h-5 text-white" 
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+            <path stroke-width="2" d="M2 12h20M12 2c3 4 3 16 0 20M12 2c-3 4-3 16 0 20"/>
+        </svg>
+      </div>
       <!-- Title -->
       <h1 class="text-xl font-bold text-white">
         TOURISM DEVELOPMENT POTENTIAL
@@ -36,19 +36,18 @@
 
       <a href="{{ route('variabel') }}" 
          class="text-white hover:text-blue-300 transition {{ request()->routeIs('variabel') ? 'border-b-2 border-white pb-1' : '' }}">
-         Deskriptif
+         Indikator
       </a>
 
       <a href="{{ route('eksploratif') }}" 
          class="text-white hover:text-blue-300 transition {{ request()->routeIs('eksploratif') ? 'border-b-2 border-white pb-1' : '' }}">
-         Eksploratif
+         ODTW
       </a>
 
       <a href="{{ route('spasial') }}" 
          class="text-white hover:text-blue-300 transition {{ request()->routeIs('spasial') ? 'border-b-2 border-white pb-1' : '' }}">
          Spasial
       </a>
-
     </div>
   </div>
 
@@ -58,8 +57,8 @@
     
     <div class="px-6 py-10 flex flex-col space-y-6">
       <a href="{{ route('home') }}" class="text-white text-lg font-semibold hover:text-blue-300 transition" onclick="closeMenu()">Beranda</a>
-            <a href="{{ route('variabel') }}" class="text-white text-lg font-semibold hover:text-blue-300 transition" onclick="closeMenu()">Deskriptif</a>
-      <a href="{{ route('eksploratif') }}" class="text-white text-lg font-semibold hover:text-blue-300 transition" onclick="closeMenu()">Eksploratif</a>
+      <a href="{{ route('variabel') }}" class="text-white text-lg font-semibold hover:text-blue-300 transition" onclick="closeMenu()">Indikator</a>
+      <a href="{{ route('eksploratif') }}" class="text-white text-lg font-semibold hover:text-blue-300 transition" onclick="closeMenu()">ODTW</a>
       <a href="{{ route('spasial') }}" class="text-white text-lg font-semibold hover:text-blue-300 transition" onclick="closeMenu()">Spasial</a>
     </div>
   </div>

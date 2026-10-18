@@ -26,8 +26,9 @@
 
                 <div class="px-8 pb-8 text-center -mt-16">
 
-                    <img src="/images/dewi.jpeg"
-                        class="w-32 h-40 object-cover rounded-2xl mx-auto border-4 border-white shadow-lg">
+                    <img src="{{ asset('images/dewi.jpeg') }}"
+                         class="w-32 h-40 object-cover rounded-2xl mx-auto border-4 border-white shadow-lg"
+                         alt="Foto Dewi Nurihandayani">
 
                     <h3 class="mt-5 text-2xl font-bold text-[#1A237E]">
                         Dewi Nurihandayani
@@ -55,8 +56,9 @@
 
                 <div class="px-8 pb-8 text-center -mt-16">
 
-                    <img src="/images/ricky.jpeg"
-                        class="w-32 h-40 object-cover rounded-2xl mx-auto border-4 border-white shadow-lg">
+                    <img src="{{ asset('images/ricky.jpeg') }}"
+                         class="w-32 h-40 object-cover rounded-2xl mx-auto border-4 border-white shadow-lg"
+                         alt="Foto Ricky Yordani">
 
                     <h3 class="mt-5 text-2xl font-bold text-[#1A237E]">
                         Ricky Yordani, M.Stat.

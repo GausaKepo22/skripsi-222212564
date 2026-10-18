@@ -51,7 +51,7 @@
             <div class="bg-white rounded-3xl shadow-xl p-6">
 
                 <h2 class="text-xl font-bold text-[#1A237E] mb-6 text-center">
-                    Global Moran’s I
+                    Global Moran’s I <br> Hasil Uji Signifikansi Monte Carlo Permutation
                 </h2>
 
                 <div class="space-y-4 text-sm text-gray-700">
@@ -59,30 +59,33 @@
                         <p class="font-semibold">Weighted</p>
                         <p>Queen Contiguity</p>
                     </div>
-
+                 	<div>
+                        <p class="font-semibold">Jumlah Permutasi</p>
+                        <p>999</p>
+                    </div>
                     <div>
                         <p class="font-semibold">Moran’s I</p>
-                        <p>0.319953</p>
+                        <p>0.3200</p>
                     </div>
 
                     <div>
                         <p class="font-semibold">Expected I</p>
-                        <p>-0.002500</p>
+                        <p>-0,0022</p>
                     </div>
 
                     <div>
-                        <p class="font-semibold">Variance</p>
-                        <p>0.000898</p>
+                        <p class="font-semibold">Standard Deviation</p>
+                        <p>0.0297</p>
                     </div>
 
                     <div>
                         <p class="font-semibold">Z-Score</p>
-                        <p>10.763360</p>
+                        <p>10,8377</p>
                     </div>
 
                     <div>
                         <p class="font-semibold">P-Value</p>
-                        <p>0.000000</p>
+                        <p>0.0010</p>
                     </div>
 
                     <hr>
@@ -157,6 +160,249 @@
 
 </section>
 
+
+<!-- ===================================================== -->
+<!-- TABEL POLA LISA -->
+<!-- ===================================================== -->
+
+<section class="py-12 bg-slate-100">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+
+            <!-- HEADER TABEL -->
+            <div class="p-6 border-b">
+                <h2 class="text-xl font-bold text-[#1A237E]">
+                    Distribusi Pola LISA
+                </h2>
+
+                <p class="text-sm text-gray-600 mt-1">
+                    Distribusi desa/kelurahan berdasarkan klasifikasi autokorelasi spasial lokal.
+                </p>
+            </div>
+
+            <!-- TABEL -->
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-sm text-left text-gray-700">
+
+                    <thead class="bg-[#1A237E] text-white">
+
+                        <tr>
+                            <th class="px-6 py-4 font-semibold">
+                                Pola LISA
+                            </th>
+
+                            <th class="px-6 py-4 font-semibold text-center">
+                                Jumlah Desa/Kelurahan
+                            </th>
+
+                            <th class="px-6 py-4 font-semibold text-center">
+                                Presentase (%)
+                            </th>
+
+                            <th class="px-6 py-4 font-semibold">
+                                Interpretasi
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-200">
+
+                        <!-- HIGH-HIGH -->
+                        <tr class="hover:bg-green-50 transition">
+
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+
+                                    <span
+                                        class="w-3 h-3 rounded-full bg-[#16A34A]">
+                                    </span>
+
+                                    <span class="font-semibold text-gray-800">
+                                        High-High (HH)
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-center font-medium">
+                                36
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                8,98
+                            </td>
+
+                            <td class="px-6 py-4">
+                                Wilayah dengan IPPP tinggi dikelilingi wilayah dengan IPPP tinggi.
+                            </td>
+
+                        </tr>
+
+
+                        <!-- HIGH-LOW -->
+                        <tr class="hover:bg-blue-50 transition">
+
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+
+                                    <span
+                                        class="w-3 h-3 rounded-full bg-[#2563EB]">
+                                    </span>
+
+                                    <span class="font-semibold text-gray-800">
+                                        High-Low (HL)
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-center font-medium">
+                                8
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                1,99
+                            </td>
+
+                            <td class="px-6 py-4">
+                                Wilayah dengan IPPP tinggi dikelilingi wilayah dengan IPPP rendah.
+                            </td>
+
+                        </tr>
+
+
+                        <!-- LOW-HIGH -->
+                        <tr class="hover:bg-yellow-50 transition">
+
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+
+                                    <span
+                                        class="w-3 h-3 rounded-full bg-[#FACC15]">
+                                    </span>
+
+                                    <span class="font-semibold text-gray-800">
+                                        Low-High (LH)
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-center font-medium">
+                                6
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                1,49
+                            </td>
+
+                            <td class="px-6 py-4">
+                                Wilayah dengan IPPP rendah dikelilingi wilayah dengan IPPP tinggi.
+                            </td>
+
+                        </tr>
+
+
+                        <!-- LOW-LOW -->
+                        <tr class="hover:bg-red-50 transition">
+
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+
+                                    <span
+                                        class="w-3 h-3 rounded-full bg-[#DC2626]">
+                                    </span>
+
+                                    <span class="font-semibold text-gray-800">
+                                        Low-Low (LL)
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-center font-medium">
+                                23
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                5,74
+                            </td>
+
+                            <td class="px-6 py-4">
+                                Wilayah dengan IPPP rendah dikelilingi wilayah dengan IPPP rendah.
+                            </td>
+
+                        </tr>
+
+
+                        <!-- NOT SIGNIFICANT -->
+                        <tr class="hover:bg-gray-50 transition">
+
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+
+                                    <span
+                                        class="w-3 h-3 rounded-full bg-[#E5E7EB] border border-gray-400">
+                                    </span>
+
+                                    <span class="font-semibold text-gray-800">
+                                        Not Significant (NS)
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-center font-medium">
+                                328
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                81,80
+                            </td>
+
+                            <td class="px-6 py-4">
+                                Tidak signifikan secara lokal.
+                            </td>
+
+                        </tr>
+
+
+                        <!-- TOTAL -->
+                        <tr class="bg-blue-50 font-bold text-[#1A237E]">
+
+                            <td class="px-6 py-4">
+                                Total
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                401
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                100,00
+                            </td>
+
+                            <td class="px-6 py-4">
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 @endsection
 
 <!-- ===================================================== -->
@@ -210,7 +456,7 @@ L.geoJSON(moranData, {
         centroids.push(center);
 
         layer.bindPopup(`
-            <b>Desa:</b> ${feature.properties.DESA}<br>
+            <b>Desa:</b> ${feature.properties.Desa}<br>
             <b>Indeks:</b> ${feature.properties.Indeks}
         `);
     }
@@ -258,33 +504,37 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 function getLISAColor(cluster) {
     switch (cluster) {
-        case 'High-High': return '#DC2626';
-        case 'Low-Low': return '#2563EB';
-        case 'High-Low': return '#F97316';
-        case 'Low-High': return '#A855F7';
+        case 'High-High': return '#16A34A'; // Hijau
+        case 'Low-Low': return '#DC2626';   // Merah
+        case 'High-Low': return '#2563EB';  // Biru
+        case 'Low-High': return '#FACC15';  // Kuning
         default: return '#E5E7EB';
     }
 }
 
 // =====================================================
-// 1. LOAD BASE GEOMETRY (INI WAJIB)
+// 1. LOAD BASE GEOMETRY (MENGGUNAKAN HELPER ASSET)
 // =====================================================
-fetch('/data/desa-klaten.geojson')
-.then(res => res.json())
+fetch("{{ asset('data/desa-klaten.geojson') }}")
+.then(res => {
+    if (!res.ok) throw new Error('Gagal memuat desa-klaten.geojson');
+    return res.json();
+})
 .then(baseGeo => {
 
     // =====================================================
-    // 2. LOAD LISA DATA
+    // 2. LOAD LISA DATA (MENGGUNAKAN HELPER ASSET)
     // =====================================================
-    fetch('/data/Hasil_Moran_Indeks.geojson')
-    .then(res => res.json())
+    fetch("{{ asset('data/Lisa-MonteCarlo.geojson') }}")
+    .then(res => {
+        if (!res.ok) throw new Error('Gagal memuat Lisa-MonteCarlo.geojson');
+        return res.json();
+    })
     .then(lisaData => {
 
-        // bikin index lookup LISA
         let lisaMap = {};
         lisaData.features.forEach(f => {
-
-            let key = f.properties.nmdesa; // atau iddesa (lebih aman)
+            let key = f.properties.nmdesa;
             lisaMap[key] = f.properties;
         });
 
@@ -292,15 +542,13 @@ fetch('/data/desa-klaten.geojson')
         // 3. MERGE BASE + LISA
         // =====================================================
         L.geoJSON(baseGeo, {
-
             style: function (feature) {
-
                 let key = feature.properties.nmdesa;
                 let lisa = lisaMap[key];
 
                 return {
                     fillColor: lisa
-                        ? getLISAColor(lisa.LISA_Cluster)
+                        ? getLISAColor(lisa.Klaster_LISA_Final)
                         : '#E5E7EB',
                     color: '#374151',
                     weight: 0.6,
@@ -309,81 +557,64 @@ fetch('/data/desa-klaten.geojson')
             },
 
             onEachFeature: function (feature, layer) {
-
                 let key = feature.properties.nmdesa;
                 let lisa = lisaMap[key];
 
                 layer.bindPopup(`
                     <div style="font-size:13px">
-
-                        <b>Desa:</b> ${feature.properties.nmdesa}<br>
-                        <b>Kecamatan:</b> ${feature.properties.nmkec}<br>
-
+                        <b>Desa:</b> ${feature.properties.nmdesa ?? '-'}<br>
+                        <b>Kecamatan:</b> ${feature.properties.nmkec ?? '-'}<br>
                         <hr>
-
-                        <b>Cluster:</b> ${lisa?.LISA_Cluster ?? '-'}<br>
-                        <b>Indeks:</b> ${lisa?.Indeks_Entropy ?? '-'}<br>
+                        <b>Cluster:</b> ${lisa?.Klaster_LISA_Final ?? '-'}<br>
+                        <b>Indeks:</b> ${lisa?.Nilai_Lokal_I ?? '-'}<br>
                         <b>Z-Score:</b> ${lisa?.Z_Score ?? '-'}<br>
-                        <b>P-Value:</b> ${lisa?.Local_p ?? '-'}
+                        <b>Pseudo P-Value:</b> ${lisa?.Pseudo_P_Value ?? '-'}
                     </div>
                 `);
             }
-
         }).addTo(map2);
 
-// =====================================================
-// LEGEND LISA
-// =====================================================
+        // LEGEND LISA
+        const legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function () {
+            const div = L.DomUtil.create('div', 'info legend');
+            div.innerHTML = `
+                <div style="
+                    background:white;
+                    padding:12px 14px;
+                    border-radius:12px;
+                    box-shadow:0 2px 10px rgba(0,0,0,0.2);
+                    font-size:12px;
+                    line-height:18px;
+                ">
+                    <b style="color:#1A237E;">LISA Cluster</b><br><br>
+                    <div style="display:flex; align-items:center; margin-bottom:4px;">
+                        <span style="background:#16A34A;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
+                        High-High (Hotspot)
+                    </div>
+                    <div style="display:flex; align-items:center; margin-bottom:4px;">
+                        <span style="background:#DC2626;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
+                        Low-Low (Coldspot)
+                    </div>
+                    <div style="display:flex; align-items:center; margin-bottom:4px;">
+                        <span style="background:#2563EB;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
+                        High-Low (Outlier)
+                    </div>
+                    <div style="display:flex; align-items:center;">
+                        <span style="background:#FACC15;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
+                        Low-High (Outlier)
+                    </div>
+                </div>
+            `;
+            return div;
+        };
+        legend.addTo(map2);
 
-const legend = L.control({ position: 'bottomright' });
+    })
+    .catch(err => console.error("Error LISA:", err));
 
-legend.onAdd = function () {
-
-    const div = L.DomUtil.create('div', 'info legend');
-
-    div.innerHTML = `
-        <div style="
-            background:white;
-            padding:12px 14px;
-            border-radius:12px;
-            box-shadow:0 2px 10px rgba(0,0,0,0.2);
-            font-size:12px;
-            line-height:18px;
-        ">
-
-            <b style="color:#1A237E;">LISA Cluster</b><br><br>
-
-            <div style="display:flex; align-items:center; margin-bottom:4px;">
-                <span style="background:#DC2626;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
-                High-High (Hotspot)
-            </div>
-
-            <div style="display:flex; align-items:center; margin-bottom:4px;">
-                <span style="background:#2563EB;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
-                Low-Low (Coldspot)
-            </div>
-
-            <div style="display:flex; align-items:center; margin-bottom:4px;">
-                <span style="background:#F97316;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
-                High-Low (Outlier)
-            </div>
-
-            <div style="display:flex; align-items:center;">
-                <span style="background:#A855F7;width:12px;height:12px;display:inline-block;margin-right:8px;"></span>
-                Low-High (Outlier)
-            </div>
-
-        </div>
-    `;
-
-    return div;
-};
-
-legend.addTo(map2);
-
-    });
-
-});
+})
+.catch(err => console.error("Error Base GeoJSON:", err));
 
 let scatterData = @json($scatterData);
 
@@ -517,8 +748,8 @@ function drawScatter(data) {
 
                 hovertemplate:
                     '<b>%{text}</b><br>' +
-                    'Indeks: %{x:.3f}<br>' +
-                    'Spatial Lag: %{y:.3f}<extra></extra>',
+                    'IPP Standarized: %{x:.3f}<br>' +
+                    'Spatial Lag Standarized IPP: %{y:.3f}<extra></extra>',
 
                 marker: {
                     size: 8,
@@ -562,9 +793,51 @@ function drawScatter(data) {
                 }
             },
 
-            // ======================
+            // =====================================================
+            // GARIS PEMBATAS KUADRAN x = 0 DAN y = 0
+            // =====================================================
+
+            shapes: [
+
+                // GARIS VERTIKAL x = 0
+                {
+                    type: 'line',
+                    x0: 0,
+                    x1: 0,
+                    y0: 0,
+                    y1: 1,
+                    yref: 'paper',
+
+                    line: {
+                        color: '#111827',
+                        width: 3
+                    },
+
+                    layer: 'above'
+                },
+
+                // GARIS HORIZONTAL y = 0
+                {
+                    type: 'line',
+                    x0: 0,
+                    x1: 1,
+                    xref: 'paper',
+                    y0: 0,
+                    y1: 0,
+
+                    line: {
+                        color: '#111827',
+                        width: 3
+                    },
+
+                    layer: 'above'
+                }
+
+            ],
+
+            // =======================
             // ANNOTATION R DAN R²
-            // ======================
+            // =======================
 
             annotations: [
 
@@ -573,7 +846,8 @@ function drawScatter(data) {
                     y: yMid,
 
                     text:
-                        'r = ' +
+                    	'Moran\'s I = 0.3200' +
+                        '<br>r = ' +
                         corr.toFixed(3)
                         +
                         '<br>R² = ' +
@@ -602,7 +876,7 @@ function drawScatter(data) {
             xaxis: {
 
                 title:
-                    'Indeks Entropy',
+                    'Indeks Potensi Pengembangan Pariwisata (IPPP) Standarized',
 
                 showgrid: true,
 
@@ -622,7 +896,7 @@ function drawScatter(data) {
             yaxis: {
 
                 title:
-                    'Spatial Lag',
+                    'Spatial Lag Standarized IPP ',
 
                 showgrid: true,
 

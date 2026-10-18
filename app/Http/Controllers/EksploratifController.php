@@ -10,10 +10,14 @@ class EksploratifController extends Controller
     public function index()
     {
         // =============================================
-        // PATH EXCEL
+        // PATH EXCEL (Menggunakan public_path)
         // =============================================
 
+        // Jika file berada di: public/data/DTW.xlsx
         $path = public_path('data/DTW.xlsx');
+        
+        // Catatan: Jika file langsung berada di public/DTW.xlsx, gunakan:
+        // $path = public_path('DTW.xlsx');
 
         // =============================================
         // LOAD EXCEL
